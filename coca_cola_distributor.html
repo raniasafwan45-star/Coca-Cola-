@@ -892,41 +892,132 @@ textarea.inp{resize:none;min-height:70px;line-height:1.6;}
 <body>
 
 <!-- ════════ LOGIN ════════ -->
-<div class="screen active" id="login">
-  <div class="blobs"><div class="bl bl1"></div><div class="bl bl2"></div><div class="bl bl3"></div></div>
-  <div class="login-card">
-    <div class="login-logo" style="display:flex;justify-content:center;margin-bottom:8px;animation:lf 4s ease-in-out infinite;filter:drop-shadow(0 4px 18px rgba(0,0,0,.6));">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Coca-Cola_Logo.svg/2560px-Coca-Cola_Logo.svg.png"
-        style="width:160px;filter:brightness(0) invert(1);"
-        onerror="this.style.display='none'">
+<div id="loginOverlay" style="
+  position:fixed;inset:0;z-index:9999;
+  background:linear-gradient(160deg,#E4002B 0%,#9a0016 40%,#540008 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:Cairo,sans-serif;
+">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Coca-Cola_Logo.svg/2560px-Coca-Cola_Logo.svg.png"
+    style="width:180px;filter:brightness(0) invert(1);margin-bottom:12px;"
+    onerror="this.style.display='none'">
+  <div style="font-size:12px;font-weight:700;letter-spacing:3px;color:rgba(255,255,255,.8);margin-bottom:24px;">DISTRIBUTOR PRO</div>
+
+  <div style="background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.25);border-radius:24px;padding:28px 24px;width:88%;max-width:320px;text-align:center;">
+    <!-- dots -->
+    <div id="pinDots" style="display:flex;justify-content:center;gap:14px;margin-bottom:16px;">
+      <div id="pd0" style="width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.25);border:2px solid rgba(255,255,255,.4);transition:all .15s;"></div>
+      <div id="pd1" style="width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.25);border:2px solid rgba(255,255,255,.4);transition:all .15s;"></div>
+      <div id="pd2" style="width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.25);border:2px solid rgba(255,255,255,.4);transition:all .15s;"></div>
+      <div id="pd3" style="width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.25);border:2px solid rgba(255,255,255,.4);transition:all .15s;"></div>
     </div>
-    <div class="login-title">Distributor Pro</div>
-    <div class="login-dots" id="loginDots">
-      <div class="ldot" id="ld0"></div>
-      <div class="ldot" id="ld1"></div>
-      <div class="ldot" id="ld2"></div>
-      <div class="ldot" id="ld3"></div>
-    </div>
-    <div class="login-msg" id="loginMsg">أدخل الكود السري</div>
-    <div class="numpad">
-      <button class="nkey" onclick="loginKey('1')">1</button>
-      <button class="nkey" onclick="loginKey('2')">2</button>
-      <button class="nkey" onclick="loginKey('3')">3</button>
-      <button class="nkey" onclick="loginKey('4')">4</button>
-      <button class="nkey" onclick="loginKey('5')">5</button>
-      <button class="nkey" onclick="loginKey('6')">6</button>
-      <button class="nkey" onclick="loginKey('7')">7</button>
-      <button class="nkey" onclick="loginKey('8')">8</button>
-      <button class="nkey" onclick="loginKey('9')">9</button>
-      <button class="nkey empty"></button>
-      <button class="nkey" onclick="loginKey('0')">0</button>
-      <button class="nkey del" onclick="loginDel()">⌫</button>
+    <div id="pinMsg" style="font-size:13px;font-weight:700;color:rgba(255,255,255,.8);margin-bottom:20px;min-height:20px;">أدخل الكود السري</div>
+
+    <!-- numpad -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;direction:ltr;">
+      <button onclick="pinKey('1')" style="height:60px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.2);border-radius:14px;font-size:24px;font-weight:800;color:#fff;cursor:pointer;font-family:Cairo,sans-serif;">1</button>
+      <button onclick="pinKey('2')" style="height:60px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.2);border-radius:14px;font-size:24px;font-weight:800;color:#fff;cursor:pointer;font-family:Cairo,sans-serif;">2</button>
+      <button onclick="pinKey('3')" style="height:60px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.2);border-radius:14px;font-size:24px;font-weight:800;color:#fff;cursor:pointer;font-family:Cairo,sans-serif;">3</button>
+      <button onclick="pinKey('4')" style="height:60px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.2);border-radius:14px;font-size:24px;font-weight:800;color:#fff;cursor:pointer;font-family:Cairo,sans-serif;">4</button>
+      <button onclick="pinKey('5')" style="height:60px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.2);border-radius:14px;font-size:24px;font-weight:800;color:#fff;cursor:pointer;font-family:Cairo,sans-serif;">5</button>
+      <button onclick="pinKey('6')" style="height:60px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.2);border-radius:14px;font-size:24px;font-weight:800;color:#fff;cursor:pointer;font-family:Cairo,sans-serif;">6</button>
+      <button onclick="pinKey('7')" style="height:60px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.2);border-radius:14px;font-size:24px;font-weight:800;color:#fff;cursor:pointer;font-family:Cairo,sans-serif;">7</button>
+      <button onclick="pinKey('8')" style="height:60px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.2);border-radius:14px;font-size:24px;font-weight:800;color:#fff;cursor:pointer;font-family:Cairo,sans-serif;">8</button>
+      <button onclick="pinKey('9')" style="height:60px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.2);border-radius:14px;font-size:24px;font-weight:800;color:#fff;cursor:pointer;font-family:Cairo,sans-serif;">9</button>
+      <div></div>
+      <button onclick="pinKey('0')" style="height:60px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.2);border-radius:14px;font-size:24px;font-weight:800;color:#fff;cursor:pointer;font-family:Cairo,sans-serif;">0</button>
+      <button onclick="pinDel()" style="height:60px;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.15);border-radius:14px;font-size:20px;color:#fff;cursor:pointer;">⌫</button>
     </div>
   </div>
 </div>
 
+<script>
+// Simple PIN — runs immediately, no dependencies
+var _pin='';
+var _code='1234';
+var _locked=false;
+var _tries=0;
+
+function pinKey(n){
+  if(_locked||_pin.length>=4)return;
+  _pin+=n;
+  _updateDots();
+  if(_pin.length===4){
+    setTimeout(_checkPin,300);
+  }
+}
+function pinDel(){
+  if(_locked)return;
+  _pin=_pin.slice(0,-1);
+  _updateDots();
+  document.getElementById('pinMsg').style.color='rgba(255,255,255,.8)';
+  document.getElementById('pinMsg').textContent='أدخل الكود السري';
+}
+function _updateDots(){
+  for(var i=0;i<4;i++){
+    var d=document.getElementById('pd'+i);
+    if(!d)continue;
+    if(i<_pin.length){
+      d.style.background='#fff';
+      d.style.borderColor='#fff';
+      d.style.transform='scale(1.15)';
+    } else {
+      d.style.background='rgba(255,255,255,.25)';
+      d.style.borderColor='rgba(255,255,255,.4)';
+      d.style.transform='scale(1)';
+    }
+  }
+}
+function _checkPin(){
+  if(_pin===_code){
+    // success
+    for(var i=0;i<4;i++){
+      var d=document.getElementById('pd'+i);
+      if(d){d.style.background='#22c55e';d.style.borderColor='#22c55e';}
+    }
+    document.getElementById('pinMsg').style.color='#22c55e';
+    document.getElementById('pinMsg').textContent='✅ مرحباً بك!';
+    setTimeout(function(){
+      var ov=document.getElementById('loginOverlay');
+      if(ov)ov.style.display='none';
+    },700);
+  } else {
+    _tries++;
+    _pin='';
+    for(var i=0;i<4;i++){
+      var d=document.getElementById('pd'+i);
+      if(d){d.style.background='#ef4444';d.style.borderColor='#ef4444';}
+    }
+    document.getElementById('pinMsg').style.color='#ff6680';
+    document.getElementById('pinMsg').textContent='❌ كود خاطئ — '+(5-_tries)+' محاولات';
+    if(_tries>=5){
+      _locked=true;
+      var t=30;
+      document.getElementById('pinMsg').textContent='🔒 محظور 30 ثانية';
+      var ti=setInterval(function(){
+        t--;
+        document.getElementById('pinMsg').textContent='🔒 '+t+' ثانية';
+        if(t<=0){
+          clearInterval(ti);_locked=false;_tries=0;
+          document.getElementById('pinMsg').style.color='rgba(255,255,255,.8)';
+          document.getElementById('pinMsg').textContent='أدخل الكود السري';
+          for(var i=0;i<4;i++){var d=document.getElementById('pd'+i);if(d){d.style.background='rgba(255,255,255,.25)';d.style.borderColor='rgba(255,255,255,.4)';}}
+        }
+      },1000);
+    } else {
+      setTimeout(function(){
+        _pin='';
+        for(var i=0;i<4;i++){var d=document.getElementById('pd'+i);if(d){d.style.background='rgba(255,255,255,.25)';d.style.borderColor='rgba(255,255,255,.4)';d.style.transform='scale(1)';}}
+        document.getElementById('pinMsg').style.color='rgba(255,255,255,.8)';
+        document.getElementById('pinMsg').textContent='أدخل الكود السري';
+      },1200);
+    }
+  }
+}
+</script>
+
 <!-- ════════ HOME ════════ -->
-<div class="screen right" id="home">
+<div class="screen active" id="home">
   <div class="blobs"><div class="bl bl1"></div><div class="bl bl2"></div><div class="bl bl3"></div></div>
   <div class="bubs" id="bubs"></div>
   <div class="sp" style="width:5px;height:5px;top:88px;right:60px;animation-duration:2.8s;"></div>
@@ -1334,68 +1425,6 @@ async function updateLocation(){
   btn.classList.remove('loading');
 }
 
-
-/* ══ LOGIN ══ */
-var LOGIN_CODE='1234';
-var loginInput='';
-var loginLocked=false;
-var loginAttempts=0;
-
-function loginKey(n){
-  if(loginLocked||loginInput.length>=4)return;
-  loginInput+=n;
-  updateLoginDots();
-  if(loginInput.length===4)setTimeout(checkLogin,250);
-}
-function loginDel(){
-  if(loginLocked||!loginInput.length)return;
-  loginInput=loginInput.slice(0,-1);
-  updateLoginDots();
-  document.getElementById('loginMsg').className='login-msg';
-  document.getElementById('loginMsg').textContent='أدخل الكود السري';
-}
-function updateLoginDots(){
-  for(var i=0;i<4;i++){
-    var d=document.getElementById('ld'+i);if(!d)return;
-    d.className='ldot'+(i<loginInput.length?' filled':'');
-  }
-}
-function checkLogin(){
-  if(loginInput===LOGIN_CODE){
-    for(var i=0;i<4;i++){var d=document.getElementById('ld'+i);if(d)d.className='ldot green';}
-    document.getElementById('loginMsg').className='login-msg ok';
-    document.getElementById('loginMsg').textContent='✅ مرحباً بك!';
-    setTimeout(function(){
-      document.getElementById('login').className='screen left';
-      document.getElementById('home').className='screen active';
-    },600);
-  } else {
-    loginAttempts++;loginInput='';
-    for(var i=0;i<4;i++){var d=document.getElementById('ld'+i);if(d)d.className='ldot error-dot';}
-    document.getElementById('loginMsg').className='login-msg error';
-    if(loginAttempts>=5){
-      loginLocked=true;
-      var t=30;
-      document.getElementById('loginMsg').textContent='🔒 محظور 30 ثانية';
-      var ti=setInterval(function(){
-        t--;document.getElementById('loginMsg').textContent='🔒 محظور — '+t+'ث';
-        if(t<=0){
-          clearInterval(ti);loginLocked=false;loginAttempts=0;
-          document.getElementById('loginMsg').className='login-msg';
-          document.getElementById('loginMsg').textContent='أدخل الكود السري';
-          for(var i=0;i<4;i++){var d=document.getElementById('ld'+i);if(d)d.className='ldot';}
-        }
-      },1000);
-    } else {
-      document.getElementById('loginMsg').textContent='❌ كود خاطئ — '+(5-loginAttempts)+' محاولات';
-      setTimeout(function(){
-        for(var i=0;i<4;i++){var d=document.getElementById('ld'+i);if(d)d.className='ldot';}
-        document.getElementById('loginMsg').className='login-msg';
-        document.getElementById('loginMsg').textContent='أدخل الكود السري';
-      },1200);
-    }
-  }
-}
 
 /* ── ROUTER ── */
 function goTo(id,dir){
